@@ -10,12 +10,15 @@
 
 import os
 
-from tank import Hook
+import sgtk
 
 import hou
 
 
-class BreakdownSceneOperations(Hook):
+HookBaseClass = sgtk.get_hook_baseclass()
+
+
+class BreakdownSceneOperations(HookBaseClass):
     """
     Breakdown operations for Houdini.
 

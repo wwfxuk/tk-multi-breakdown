@@ -8,12 +8,17 @@
 # agreement to the Shotgun Pipeline Toolkit Source Code License. All rights
 # not expressly granted therein are reserved by Shotgun Software Inc.
 
-from sgtk import Hook
-import maya.cmds as cmds
 import os
 
+import sgtk
 
-class BreakdownSceneOperations(Hook):
+import maya.cmds as cmds
+
+
+HookBaseClass = sgtk.get_hook_baseclass()
+
+
+class BreakdownSceneOperations(HookBaseClass):
     """
     Breakdown operations for Maya.
 
