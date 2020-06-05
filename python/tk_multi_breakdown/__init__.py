@@ -10,6 +10,7 @@
 
 # Import the get_breakdown_items() method so that it can be used in the app.py.
 from .breakdown import get_breakdown_items  # noqa
+from .hook_base_class import BaseBreakdownSceneOperations
 
 
 def show_dialog(app):

@@ -9,12 +9,15 @@
 # not expressly granted therein are reserved by Shotgun Software Inc.
 
 import sgtk
-from sgtk import Hook, TankError
+from sgtk import TankError
 
 import mari
 
 
-class MariSceneOperations(Hook):
+HookBaseClass = sgtk.get_hook_baseclass()
+
+
+class MariSceneOperations(HookBaseClass):
     """
     Breakdown operations for Mari.
 

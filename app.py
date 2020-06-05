@@ -25,6 +25,24 @@ class MultiBreakdown(Application):
         self.engine.register_command(
             "Scene Breakdown...", cb, {"short_name": "breakdown"}
         )
+        self._event_callback_obj = self.execute_hook_method(
+            "hook_scene_operations",
+            "set_up_open_scene_callback",
+            base_class=self.scene_breakdown_base_class,
+            open_dialog_callback=cb
+        )
+
+    def destroy_app(self):
+        """
+        Called by the engine as it is being destroyed.
+        """
+        if self._event_callback_obj:
+            self.execute_hook_method(
+                "hook_scene_operations",
+                "remove_open_scene_callback",
+                base_class=self.scene_breakdown_base_class,
+                callback_item=self._event_callback_obj
+            )
 
     @property
     def context_change_allowed(self):
@@ -32,6 +50,15 @@ class MultiBreakdown(Application):
         Specifies that context changes are allowed.
         """
         return True
+
+    @property
+    def scene_breakdown_base_class(self):
+        """
+        The base class for all scene operation hooks.
+
+        :rtype: :class:`tk_multi_breakdown.hook_base_class.BaseBreakdownSceneOperations`
+        """
+        return self.import_module("tk_multi_breakdown").BaseBreakdownSceneOperations
 
     def show_breakdown_dialog(self):
         """
@@ -195,4 +222,6 @@ class MultiBreakdown(Application):
         item["path"] = template.apply_fields(fields)
 
         # call out to hook
-        return self.execute_hook_method("hook_scene_operations", "update", items=[item])
+        return self.execute_hook_method(
+            "hook_scene_operations", "update", base_class=self.scene_breakdown_base_class, items=[item]
+        )
