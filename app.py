@@ -25,12 +25,15 @@ class MultiBreakdown(Application):
         self.engine.register_command(
             "Scene Breakdown...", cb, {"short_name": "breakdown"}
         )
-        self._event_callback_obj = self.execute_hook_method(
-            "hook_scene_operations",
-            "set_up_open_scene_callback",
-            base_class=self.scene_breakdown_base_class,
-            open_dialog_callback=cb
-        )
+        self._event_callback_obj = None
+
+        if self.engine.has_ui:
+            self._event_callback_obj = self.execute_hook_method(
+                "hook_scene_operations",
+                "set_up_open_scene_callback",
+                base_class=self.scene_breakdown_base_class,
+                open_dialog_callback=cb,
+            )
 
     def destroy_app(self):
         """
@@ -41,7 +44,7 @@ class MultiBreakdown(Application):
                 "hook_scene_operations",
                 "remove_open_scene_callback",
                 base_class=self.scene_breakdown_base_class,
-                callback_item=self._event_callback_obj
+                callback_item=self._event_callback_obj,
             )
 
     @property
@@ -223,5 +226,8 @@ class MultiBreakdown(Application):
 
         # call out to hook
         return self.execute_hook_method(
-            "hook_scene_operations", "update", base_class=self.scene_breakdown_base_class, items=[item]
+            "hook_scene_operations",
+            "update",
+            base_class=self.scene_breakdown_base_class,
+            items=[item],
         )
