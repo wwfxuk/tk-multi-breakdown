@@ -39,3 +39,6 @@ nosetests.xml
 
 # Virtual Environment
 venv
+
+# Shotgun stuff
+/tk-metadata/
